@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.event.InputEvent;
 import java.util.EventListener;
 import java.util.HashMap;

@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.Component;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;

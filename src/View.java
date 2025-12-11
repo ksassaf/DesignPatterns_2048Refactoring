@@ -1,3 +1,5 @@
+package src;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.List;
@@ -22,8 +24,15 @@ public class View extends JPanel implements Observer{
     boolean myLose = false;
     int myScore = 0;
 
-	
-  /**
+    @Override
+    public void update(Model model) {
+        myTiles = List.of(model.getTiles());
+        myWin = model.myWin;
+        myLose = model.myLose;
+        myScore = model.myScore;
+    }
+
+        /**
      View needs to be consistent with the Model.
      When Model changes --values of Tiles, Score, win and lose -
 	 this View has to change as well. 

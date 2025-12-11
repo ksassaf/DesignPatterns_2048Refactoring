@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
@@ -7,8 +9,25 @@ public class Model implements Subject{
     boolean myWin = false;
     boolean myLose = false;
     int myScore = 0;
+    ArrayList<Observer> observers = new ArrayList<>();
 
-	/**
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update(this);
+        }
+    }
+/**
      * STILL OBSERVER? - need to add Subject interface, add notify
 	Design this class so that whenever 4 attributes change, 
 	the view, or controller, or both, would keep up.
@@ -18,7 +37,6 @@ public class Model implements Subject{
 	
 	/** why expose the internal representation?
 	find a better way.
-     ITERATOR????
 	*/
     public Tile[] getTiles() {return myTiles;}
 	
@@ -51,24 +69,28 @@ public class Model implements Subject{
         if (needAddTile) {
           addTile();
         }
+      notifyObservers();
      }
     
     public void right() {
         myTiles = rotate(180);
         left();
         myTiles = rotate(180);
+        notifyObservers();
       }
     
       public void up() {
         myTiles = rotate(270);
         left();
         myTiles = rotate(90);
+        notifyObservers();
       }
     
       public void down() {
         myTiles = rotate(90);
         left();
         myTiles = rotate(270);
+        notifyObservers();
       }
 
     public  boolean canMove() {
@@ -96,6 +118,7 @@ public class Model implements Subject{
 		}
 		addTile();
 		addTile();
+        notifyObservers();
 	}
     /*PRIVATE METHODS, left them as is in the original implementation.
 	 No need to change them */
@@ -106,6 +129,7 @@ public class Model implements Subject{
             Tile emptyTime = list.get(index);
             emptyTime.value = Math.random() < 0.9 ? 2 : 4;
         }
+        notifyObservers();
     }
  
     private List<Tile> availableSpace() {
@@ -196,9 +220,11 @@ public class Model implements Subject{
           list.add(new Tile(num));
         }
         if (list.size() == 0) {
-          return oldLine;
+            notifyObservers();
+            return oldLine;
         } else {
           ensureSize(list, 4);
+          notifyObservers();
           return list.toArray(new Tile[4]);
         }
     }
