@@ -32,8 +32,8 @@ public class MouseController extends Controller implements MouseListener,MouseMo
    }
     /*MouseListener  methods */
     public void mouseClicked(MouseEvent e){
-      //prevX=e.getX();
-      //prevY=e.getY();
+      prevX=e.getX();
+      prevY=e.getY();
     }
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}

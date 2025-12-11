@@ -4,6 +4,15 @@ import javax.swing.*;
  * refactored from Konstantin Bulenkov
  */
 
+/*
+The Command pattern was chosen because it helps decouple the different inputs from the behavior. Each concrete
+ command class encapsulates an action (left, right, up, down, reset) so no matter which controller is used,
+ they can easily tell the model which action to perform without duplicating logic. It supports OCP because
+ we can easily add new commands (actions) without affecting existing code.
+
+The Strategy pattern allows us to use different types of controllers, and decide at runtime (DIP). It also supports
+OCP because we can easily add new controller types without affecting existing code
+ */
 
 public class Game2048{
 	private JFrame game;
@@ -18,11 +27,7 @@ public class Game2048{
 
     /*MVC setting */
      Controller controller;
-     if (args[0].toLowerCase().contains("mouse")) {
-     	controller = new MouseController();
-	 } else {
-     	controller = new KeyController();
-	 }
+     controller = ControllerFactory.create(args[0]);
      //TODO
 	 /**  assign an instance to the controller.
 	     if arg[0] contains "mouse" make it MouseController()
