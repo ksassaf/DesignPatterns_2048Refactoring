@@ -37,8 +37,9 @@ public class Model implements Subject{
 	
 	/** why expose the internal representation?
 	find a better way.
+     ITERATOR????
 	*/
-    public Tile[] getTiles() {return myTiles;}
+    public TileIterator getTiles() {return new TileIterator(myTiles);}
 	
 	
 	public boolean getWin(){return myWin;}

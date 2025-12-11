@@ -1,10 +1,11 @@
 package src;
 
 public class TileIterator {
-    int currentTile;
-    View sourceView;
-    public TileIterator(View v) {
-        this.sourceView = v;
+    Tile[] myTiles;
+    public TileIterator(Tile[] tiles) {
+        myTiles=tiles;
     }
-
+    public Tile get(int index) {
+        return myTiles[index];
+    }
 }

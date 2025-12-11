@@ -18,15 +18,15 @@ public class View extends JPanel implements Observer{
     private static final String FONT_NAME = "Arial";
     private static final int TILE_SIZE = 64;
     private static final int TILES_MARGIN = 16;
-  
-    private List<Tile> myTiles=new ArrayList<Tile>();  
+
+    private TileIterator myTiles=new TileIterator(new Tile[0]);
     boolean myWin = false;
     boolean myLose = false;
     int myScore = 0;
 
     @Override
     public void update(Model model) {
-        myTiles = List.of(model.getTiles());
+        myTiles = model.getTiles();
         myWin = model.myWin;
         myLose = model.myLose;
         myScore = model.myScore;
