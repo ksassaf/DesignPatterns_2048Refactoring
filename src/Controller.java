@@ -1,12 +1,15 @@
 import java.awt.event.InputEvent;
 import java.util.EventListener;
- // refactored from the author Konstantin Bulenkov
+import java.util.HashMap;
+import java.util.Map;
+// refactored from the author Konstantin Bulenkov
  
 public abstract class Controller implements EventListener{
 
     /*MVC pattern. controller sits between model and view */
     private View view;   
     private Model model;
+    protected Map<Object, Command> commandMap;
     
     public void resetGame(){
         model.resetGame();
@@ -16,6 +19,12 @@ public abstract class Controller implements EventListener{
 		is consistent with that of model.
 		*/
     }
+
+    protected void executeCommand(Command c) {
+        c.execute(model);
+    }
+
+    protected abstract Command resolveCommand(InputEvent e);
   
 	/** Either keyController or MouseController will the 
 	the input listener of the View.
@@ -27,6 +36,8 @@ public abstract class Controller implements EventListener{
     public void initialize(View view, Model model){
         this.view=view;
         this.model=model;
+        commandMap = new HashMap<>();
+
 		/** other initializations if needed */
 		setListenerofView(view); //keylistener or mouse listener of view
     }
@@ -47,16 +58,15 @@ public abstract class Controller implements EventListener{
 	  Decide what to do based on the Input Event e in the subclass.
 	  in other words, resolve what action to take based on the event e.
       */
-      
-      
-      if (!myWin && !myLose) { //you may modify this condition
-	    /**
-		do the action. up() down() left() right() methods of the model.
-		*/
-        myWin = model.getWin();
-        myLose = model.getLose();
-      }
-  
+
+	  Command cmd = resolveCommand(e);
+
+	  if (cmd != null && !myWin && !myLose) {
+	      executeCommand(cmd);
+          myWin = model.getWin();
+          myLose = model.getLose();
+	  }
+
       if (!myWin && !model.canMove()) {
             myLose = true;
             model.lose();

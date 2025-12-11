@@ -7,17 +7,23 @@ import javax.swing.*;
 
 public class Game2048{
 	private JFrame game;
-	public Game2048{
+	public Game2048(){
 		game = new JFrame();
 		game.setTitle("2048 Game");
 		game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		game.setSize(340, 400);
 		game.setResizable(false);
 	}
-   public void initialize(String args){
+   public void initialize(String[] args){
 
     /*MVC setting */
-     Controller controller; //TODO
+     Controller controller;
+     if (args[0].toLowerCase().contains("mouse")) {
+     	controller = new MouseController();
+	 } else {
+     	controller = new KeyController();
+	 }
+     //TODO
 	 /**  assign an instance to the controller.
 	     if arg[0] contains "mouse" make it MouseController()
 		 otherwise  new KeyController();

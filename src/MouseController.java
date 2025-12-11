@@ -8,22 +8,21 @@ import java.util.HashMap;
 
 
 public class MouseController extends Controller implements MouseListener,MouseMotionListener{
-/**
-   need to provide an implementation to decide 
-   what to do based on the InputEvent e.
-   */   
+    private Map<Direction, Command> commands = new HashMap<>();
 
-/**
-   InputEvent e;
-   MouseDirectionEvent me=(MouseDirectionEvent) e;
-   Object code=me.getDirection();
+    public MouseController() {
+        commands.put(Direction.LEFT,  new LeftCommand());
+        commands.put(Direction.RIGHT, new RightCommand());
+        commands.put(Direction.UP,    new UpCommand());
+        commands.put(Direction.DOWN,  new DownCommand());
+        commands.put(Direction.ESC,   new ResetCommand());
+    }
 
-    Direction.ESC    to reset
-	Direction.LEFT
-	Direction.RIGHT
-	Direction.DOWN
-	Direction.UP
-   */
+    protected Command resolveCommand(InputEvent e) {
+        if (!(e instanceof MouseDirectionEvent)) return null;
+        MouseDirectionEvent me = (MouseDirectionEvent)e;
+        return commands.get(me.getDirection());
+    }
   
    
    //no need to change these
